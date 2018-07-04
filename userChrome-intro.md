@@ -88,17 +88,43 @@ See this example for quick remainder of what things represent in CSS files:
   color:black;  
 }
 
-/* properties which begin with "--" are variables
+/* Properties which begin with "--" are variables
 *  - They store some value to the element.
 *  - That value can then be used by it or it's child elements
 *  When some property is followed by !important it increases that properties priority according to specificity rules.
 */
+
 #id{
   --variable-name: "value";
 }
 #id > .class::before{
   content: var(--variable-name);
 }
+
+/* Properties prefixed with "-moz-" are normal properties but they are non-standard in the sense that no other browser vendor implements them. MDN has a quite good page about them [here](https://developer.mozilla.org/en-US/docs/Web/CSS/Mozilla_Extensions)*/
+
+
+
+
+/* By using :not() syntax you can select elements excluding some property
+*  This will set #id's color to yellow always except when it has ancestor
+*  attribute "name" of which value is "some" 
+*/
+
+#id:not([name="some"]){
+ color:yellow;
+}
+
+/* Pseudo-classes are like attributes but they only exist in specific scenarios.
+* Pseudo-classes all start with a single colon (:)
+* Some useful ones:
+* :hover - whether the cursor is on top of that element or it's children
+* :focus - if the element itself has gained user focus
+* :focuswithin - if the element or any of it's children has focus
+* :first-child and :last-child if the element is either first or last child of its parent
+* :-moz-any(#id,.class,.some) select each element that match any of the selectors inside
+* :not is a pseudo-class 
+*/
 
 /* Typically people begin the userChrome.css file with the namespace line
 *   - it is not really needed, but won't cause any harm
@@ -196,6 +222,9 @@ That's why you will see snippets like this:
 
 UI uses `display: -moz-box` for almost all elements. -moz-box is rather similar to html flexbox, but there are some differences especially on how it reacts to certain attributes. There is nothing stopping you from using other display values like block, flex and even grid. Exception to this is display:contents which is treated as being equal to display:none.
 
+Many elements have their appearance set by `-moz-appearance:` property.
+This is kind of a special property which can override other values that you set. One example is `menupopup{-moz-appearance:menupopup}`. If you try to style such an element it may or may not respond to your changes because it will evetually be styled like default menupopup. The way around that is to set its `-moz-appearance:none`. Now though, you may need to apply some additional rules to it because it now receives none of the styles that are defined in -moz-appearance:menupopup.
+
 The UI uses heavily anonymous content. Browser toolbox label such elements beginning with "xul:". From CSS perspective this has following kind of effect:
 
 ```
@@ -209,4 +238,32 @@ Now, urlbar has an anonymous element hbox which can be selected normally by `#ur
 
 # Element descriptions
 
-I'll be describing various elements separately in this chapter.
+I'll be describing the behavior of various elements separately in this chapter.
+
+## Main window
+`#main-window` or `:root`
+Window level state is saved in this elements attributes. These include things like:
+
+* [title] - window name that's visible in your OSs window manager
+* [sizemode] - window can be normal, maximized, fullscreen
+* [tabsintitlebar] - if visible titlebar is enabled or not
+* Applied theme "type"
+* - usually referred to with `:root:-moz-lwtheme`
+* window dimensions and position
+* [uidensity] - toolbar density - compact, normal, touch
+* [customizing] - if customization mode is enabled
+
+Additionally, globally applicable css variables are set here. Constant one in css files but theme modifiable ones are set in style attribute with javascript.
+
+## Titlebar
+`#titlebar`
+If window titlebar is hidden (default), then this element has a negative bottom margin which causes content after it to be drawn on top. That means the titlebar will be behind other toolbars.Since window controls are inside titlebar, other toolbars need to have some way to reserve empty space where Window controls can be shown.
+
+## Main toolbar area
+`#navigator-toolbox`
+All other toolbars are inside here
+
+### Tabs toolbar
+`#TabsToolbar`
+
+WIP
