@@ -15,7 +15,7 @@ html
   | |_main-content
   | | |_doc
   | |_extra-content
-	|_footer
+  |_footer
 ```
 
 Html is the root of the document and it has few *child* elements - head and body. In HTML, head elements is invisible, it just has some meta information like included scripts and language etc.
@@ -50,8 +50,8 @@ tagname, /* line-breaks are ignored so you can make code more readable */
 .class,
 #id[attribute]{
   ...
-	<rules>
-	...
+  <rules>
+  ...
 }
 ```
 
@@ -141,7 +141,7 @@ You can create elements with pseudo-element syntax.
 #main::after,
 #main::before{
   content: "pseudo";
-	color: red;
+  color: red;
 }
 ```
 This creates something that behaves mostly like an element as a first and last element of #main. Both just show a red text "pseudo". Pseudo-elements are useful when you need to create something. Even if it has limitations, it's the only way you can create new content with CSS.
@@ -197,12 +197,12 @@ Example consider a following element:
 ```css
 #main{
   color:green;
-	font-size: 24px;
+  font-size: 24px;
 }
 .thing[attr1][attr2][attr3]{
   color: red;
-	opacity: 0.9;
-	font-size: 19px !important;
+  opacity: 0.9;
+  font-size: 19px !important;
 }
 #main{
   color:blue;
