@@ -1,0 +1,1 @@
+# XUL extensions
