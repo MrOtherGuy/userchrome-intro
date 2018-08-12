@@ -41,3 +41,7 @@ Or you can have toolbars on bottom of the window. Multirow tabs or bookmarks (re
 
 <IMAGES HERE PERHAPS?>
 
+Unfortunately, there is no simple way to get started, except by using existing styles. There are however certain issues with that too, most notably that some styles will not fully work together.
+
+[Next chapter](userChrome_intro_2_aboutcss.md) will be a short intro to CSS in general. If you are already familiar with CSS syntax and usage rules you can skip over it to the [third chapter](userChrome_intro_3_xulcss.md) where we explore certain special cases about CSS used in chrome documents.
+
