@@ -176,6 +176,42 @@ Select the root document, basically the outermost element for which everything i
 
 Root is especially useful when you want to for example set variables that are available for all the elements in the document.
 
+### Shorthand properties
+
+Some properties are known as shorthands. They take variable number of values which the browser maps to the "real" properties. Example:
+
+```
+#main{
+  margin: 2px 0;
+  padding: 1px 2% 3em 0;
+  background: red url(<image_path_here>);
+}
+```
+
+This is same as:
+
+```
+#main{
+  margin-top: 2px;
+	margin-right: 0;
+	margin-bottom: 2px;
+	margin-left: 0;
+	padding-top: 1px;
+	padding-right: 2%;
+	padding-bottom: 3em;
+	padding-left: 0;
+	background-color: red;
+	background-image: url(<image_path_here>)
+}
+```
+
+Notice also the value type indicators.
+
+* px: absolute pixels
+* %: proportional to the size of the element
+* em: proportional to the text size of the element
+* 0 is a special value that doesn't need indicator because 0 of anything is just 0px;
+
 # Specificity
 
 Single CSS file can have hundreds of rulesets. Often, there will be many rulesets that would apply to any single element creating a scenario where some properties are defined differently in many rulesets. A property may only have one value at the time so there must be some way to select which one should be used on such conflicts.
@@ -212,5 +248,41 @@ Computed style will be { color: blue ; opacity: 0.9; font-size: 19px }
 Even if there are four tokens belonging to category 4 the single category 3 token (ID selector) will override it. color:blue takes priority over color:green since it comes after it. There is no conflicts on opacity so that will apply normally. For font-size there exists !important tag in the second ruleset though, so that will take priority.
 
 [See MDN for more thorough information](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Cascade_and_inheritance)
+
+# Box model
+
+Eventually the browser will create a "box" for each element which will be it's bounding box when rendered to screen. The type of that box is controlled by CSS "display"-property. In HTML the elements' default value is dependent on the tag-name of the element. The type affects how the element behaves related to available space and size of it's contents (think child elements).
+
+## Box type
+
+Some common values for display are "block, inline, flex, none". "Block" and "inline" create basic boxes. You can read the about the actual differences [here on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Visual_formatting_model). "Flex" is more modern addition, which automatically scales and distributes available space and can be controlled by additional control properties. [More about flexbox model.](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout). "None", well no box will be created for this element, ie. it becomes invisible.
+
+## Dimensions
+
+Each block will have few properties which affects it's eventual size and position.
+
+### Margins
+
+How much space the element reserves *outside* of it's box. Negative margins reserve negative space, and that generally results in the element being moved up or left for top and left margins. For right and bottom margins the adjacent content may be moved on top the element with negative margins. 
+
+### Paddings
+
+Similar to margins, but describes how much space the element reserves *inside* it's box. Conceptually you can think this as equal to the elements children having margin. Negative padding doesn't exist though.
+
+### Borders
+
+Between padding and margin.
+
+### Width / height
+
+Elements may scale depending on how much space it's contents need. There are three properties for width and height which control this behavior.
+
+`width` If the elements' width is not constrained by any external or internal elements then this is the width that the browser will use. Like when the browser window is really wide and there is "empty" space on both sides of content. In such case you can set width to some value and the element will use that even if it does not need that much space.
+
+`min-width` This is the minimum width of the element. If the element would be naturally scaled below this value by external pressure then this will restrict the distribution of space and any further scaling will either affect other siblings proportionally more or create empty space inside the element or make the parent element overflow.
+
+`max-width` If there is empty space around the element that could be used then this element only uses the maximum of this width. Or this element will overflow at this width if its children would need more space than this.
+
+Concepts are same for height. Width/height values are hard to explain clearly. But the main point is that max-* and min-*  values create additional restrictions for natural scaling. Width/height just set a base point which will be used when no restrictions from min-* or max-* or other elements apply. [See more about box model on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)
 
 That's it. Well, obviously there is a lot more to it than that, but that is CSS syntax and matching rules in short form. [Next up we'll be looking at how CSS differs between HTML and XUL](userChrome_intro_3_xulcss.md)
