@@ -285,4 +285,22 @@ Elements may scale depending on how much space it's contents need. There are thr
 
 Concepts are same for height. Width/height values are hard to explain clearly. But the main point is that max-* and min-*  values create additional restrictions for natural scaling. Width/height just set a base point which will be used when no restrictions from min-* or max-* or other elements apply. [See more about box model on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)
 
+# Key concepts
+
+The main thing that one should understand is the Cascade (Cascading Style Sheet remember?). Or how I like to understand it the *information flow* inside the document. As you might have noticed, the information only ever flows downwards the document tree. Consider:
+
+```css
+body > div{...<rules>...}
+div + div{...<rules>...}
+body > div[something]{...<rules>...}
+```
+
+In first case, the rules only apply to the div if it's direct child element of body. In second, the rules apply to the second div if it becomes directly after the first div. You can think of that as the second element knowing what is higher up in the structure. However, **there is no concept of higher elements knowing what it's children are or what becomes after it in the tree.** Think of the third line here; you can **not** make such ruling that would apply to the *body* if its descendant has attribute called "something". The div has that attribute and it doesn't flow upwards. That information is invisible to elements higher in the tree.
+
+This is very similar for CSS properties. Elements can inherit properties of their parent, but the information does not flow to the other direction. Likewise for CSS variables. Children can see the value of variables of their parent, but if variable is set on the child it is not visible to the parent.
+
+All this means is that the structure of the document tree restricts what is possible to do with CSS. Remember, CSS can only modify how the layout *reacts* to changes in document state - not change the state itself.
+
+Pseudo-class `:hover` is sort of an exception to this. When a child element receives the :hover pseudo-class it is also propagated to the ancestor elements. Somewhat similarly, the pseudo-class `:focus-within` is set for ancestor elements of something which actually has focus.
+
 That's it. Well, obviously there is a lot more to it than that, but that is CSS syntax and matching rules in short form. [Next up we'll be looking at how CSS differs between HTML and XUL](userChrome_intro_3_xulcss.md)
